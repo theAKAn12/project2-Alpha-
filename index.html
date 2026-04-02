@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al-Barid Electro | Full System</title>
+    <title>Al-Barid Electro | Official Domain</title>
     <style>
         :root {
             --bg-main: #d9e2e9;
@@ -17,7 +17,7 @@
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-main); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .hidden { display: none !important; }
 
-        /* --- تصميم اللوجو والهيدر من الصورة --- */
+        /* --- الهيدر واللوجو --- */
         .top-bar { width: 95%; max-width: 1000px; background-color: var(--header-peach); border: 4px solid var(--border-black); border-radius: 40px; padding: 10px 25px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .logo-box { display: flex; align-items: center; gap: 10px; }
         .envelope-svg { border: 2px solid #000; background: white; padding: 2px; width: 50px; height: 35px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8px; font-weight: bold; }
@@ -25,7 +25,7 @@
         .text-barid { color: #ff8c8c; border-bottom: 2px solid #ff8c8c; }
         .text-electro { color: var(--accent-orange); font-style: italic; }
 
-        /* --- شاشة التسجيل --- */
+        /* --- البطاقات --- */
         .card { background: white; padding: 25px; border: 4px solid var(--border-black); border-radius: 20px; width: 420px; box-shadow: 10px 10px 0px rgba(0,0,0,0.1); }
         .lang-switch-box { display: flex; gap: 5px; margin-bottom: 15px; justify-content: center; }
         .lang-tag { padding: 5px 12px; border: 2px solid #000; border-radius: 12px; cursor: pointer; font-size: 12px; background: #eee; }
@@ -38,7 +38,7 @@
         .main-layout { width: 95%; max-width: 1000px; display: flex; flex-direction: column; gap: 15px; }
         .top-row { display: flex; gap: 20px; align-items: flex-start; }
         .search-area { background: var(--input-gray); border: 4px solid #000; padding: 15px; flex-grow: 1; border-radius: 5px; display: flex; align-items: center; }
-        .search-area input { border: none; background: transparent; padding: 0; margin: 0; text-align: right; font-size: 20px; }
+        .search-area input { border: none; background: transparent; padding: 0; margin: 0; text-align: right; font-size: 20px; outline: none; }
 
         .profile-stack { position: relative; cursor: pointer; width: 60px; height: 60px; }
         .yellow-circle { width: 100%; height: 100%; background: #f1c40f; border: 4px solid #000; border-radius: 50%; }
@@ -49,10 +49,11 @@
         .create-btn { background: var(--header-peach); }
         .settings-btn { background: var(--input-gray); }
 
-        /* --- النوافذ (إرسال وإعدادات) --- */
+        /* --- النوافذ --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 999; }
         .modal-box { background: white; border: 4px solid #000; border-radius: 20px; width: 500px; padding: 25px; }
 
+        #error-box { color: red; font-size: 13px; text-align: center; font-weight: bold; display: none; margin-bottom: 10px; padding: 5px; background: #ffebeb; border-radius: 5px; }
         .logout-timer { color: red; font-weight: bold; margin-top: 10px; text-align: center; }
     </style>
 </head>
@@ -66,18 +67,25 @@
             <div class="lang-tag" onclick="app.setLang('es')">Español</div>
         </div>
         <h2 id="t-reg-title" style="text-align: center;">إنشاء حساب Al-Barid</h2>
-        <div id="error-box" style="color: red; font-size: 13px; text-align: center; font-weight: bold; display: none; margin-bottom: 10px;"></div>
+        
+        <div id="error-box"></div>
         
         <input type="text" id="reg-name" placeholder="الاسم الكامل">
         <select id="reg-country">
             <option value="">-- اختر بلدك / Select Country --</option>
             <option value="MA">المغرب 🇲🇦</option><option value="DZ">الجزائر 🇩🇿</option><option value="EG">مصر 🇪🇬</option>
             <option value="SA">السعودية 🇸🇦</option><option value="TN">تونس 🇹🇳</option><option value="AE">الإمارات 🇦🇪</option>
-            <option value="QA">قطر 🇶🇦</option><option value="FR">فرنسا 🇫🇷</option><option value="ES">إسبانيا 🇪🇸</option>
-            <option value="TR">تركيا 🇹🇷</option><option value="US">أمريكا 🇺🇸</option>
+            <option value="FR">فرنسا 🇫🇷</option><option value="ES">إسبانيا 🇪🇸</option><option value="US">أمريكا 🇺🇸</option>
+            <option value="TR">تركيا 🇹🇷</option><option value="CN">الصين 🇨🇳</option>
         </select>
-        <input type="email" id="reg-email" placeholder="البريد الإلكتروني (example@mail.com)">
+        
+        <div style="position: relative;">
+            <input type="text" id="reg-email" placeholder="البريد (اسم المستخدم)">
+            <span style="position: absolute; left: 10px; top: 18px; color: #7f8c8d; font-weight: bold; font-family: sans-serif;">@brid.com</span>
+        </div>
+        
         <input type="text" id="reg-pass" placeholder="كلمة المرور (8 أرقام فقط)" maxlength="8">
+        
         <button class="btn-green" onclick="app.validateLogin()" id="t-btn-done">تم</button>
     </div>
 
@@ -106,7 +114,7 @@
 
         <div style="background: white; border: 4px solid #000; border-radius: 15px; padding: 20px; min-height: 300px;">
             <h3 id="welcome-msg">مرحباً بك!</h3>
-            <hr border="2">
+            <hr>
             <p id="t-empty-inbox">لا توجد رسائل جديدة في بريدك.</p>
         </div>
     </div>
@@ -114,12 +122,12 @@
     <div id="compose-modal" class="modal-overlay hidden">
         <div class="modal-box">
             <h3 id="t-new-msg">رسالة جديدة</h3>
-            <input type="email" id="msg-to" placeholder="إلى: (بريد الشخص المستهدف)">
+            <input type="email" id="msg-to" placeholder="إلى المستلم: (example@brid.com)">
             <textarea id="msg-body" placeholder="اكتب نص الرسالة هنا..."></textarea>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <button class="btn-green" style="background:#3498db; width: auto;" onclick="app.sendMail()" id="t-send-final">إرسال</button>
                 <input type="file" id="file-picker" hidden multiple>
-                <button class="btn-green" style="background:#eee; color:#000; width: auto;" onclick="document.getElementById('file-picker').click()">📁 استخراج ملفات/صور/فيديو</button>
+                <button class="btn-green" style="background:#eee; color:#000; width: auto;" onclick="document.getElementById('file-picker').click()">📁 ملفات/صور/فيديو</button>
                 <button class="btn-green" style="background:var(--accent-red); width: auto;" onclick="app.hideCompose()">إلغاء</button>
             </div>
         </div>
@@ -130,7 +138,7 @@
             <h3 id="t-set-title">الإعدادات</h3>
             <label id="t-label-name">تغيير اسمك:</label>
             <input type="text" id="new-name-field">
-            <button class="btn-green" style="padding: 8px; font-size: 14px;" onclick="app.updateName()">حفظ الاسم الجديد</button>
+            <button class="btn-green" style="padding: 10px; font-size: 14px;" onclick="app.updateName()">حفظ الاسم الجديد</button>
             
             <hr>
             <label id="t-label-lang">تغيير اللغة (5 لغات):</label>
@@ -158,7 +166,8 @@
             setLang: function(l) {
                 this.lang = l;
                 document.querySelectorAll('.lang-tag').forEach(t => {
-                    if(t.innerText.toLowerCase().includes(l) || (l==='ar' && t.innerText==='العربية')) t.classList.add('active');
+                    const tagText = t.innerText.toLowerCase();
+                    if(tagText.includes(l) || (l==='ar' && tagText==='العربية')) t.classList.add('active');
                     else t.classList.remove('active');
                 });
                 this.updateUI();
@@ -166,15 +175,24 @@
 
             validateLogin: function() {
                 const n = document.getElementById('reg-name').value;
-                const e = document.getElementById('reg-email').value;
+                let e = document.getElementById('reg-email').value;
                 const p = document.getElementById('reg-pass').value;
                 const err = document.getElementById('error-box');
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
                 err.style.display = 'block';
+                
+                // التأكد من ملء البيانات
                 if(!n || !e || !p) { err.innerText = "يرجى ملء كافة الخانات!"; return; }
-                if(!emailRegex.test(e)) { err.innerText = "صيغة البريد الإلكتروني خاطئة!"; return; }
+
+                // التحقق من أن كلمة المرور 8 أرقام
                 if(p.length !== 8 || isNaN(p)) { err.innerText = "كلمة المرور يجب أن تكون 8 أرقام بالضبط!"; return; }
+
+                // التحقق من النطاق @brid.com
+                // إذا كتب المستخدم الإيميل كاملاً أو الاسم فقط، سنقوم بدمجه
+                if (!e.toLowerCase().endsWith("@brid.com")) {
+                    err.innerText = "البريد يجب أن ينتهي بـ @brid.com حصراً!";
+                    return;
+                }
 
                 this.user.name = n;
                 this.user.email = e;
@@ -211,13 +229,16 @@
 
             showCompose: function() { document.getElementById('compose-modal').classList.remove('hidden'); },
             hideCompose: function() { document.getElementById('compose-modal').classList.add('hidden'); },
+            
             sendMail: function() {
                 const to = document.getElementById('msg-to').value;
-                if(to.includes('@')) {
-                    alert("تم الإرسال بنجاح!\nالمستلم: " + to + "\nتم إرسال المرفقات بنجاح.");
+                if(to.toLowerCase().endsWith('@brid.com')) {
+                    alert("تم الإرسال بنجاح إلى: " + to);
                     this.hideCompose();
                     document.getElementById('notif-red').style.display = 'none';
-                } else { alert("يرجى إدخال بريد صحيح!"); }
+                } else { 
+                    alert("خطأ: يجب أن يكون بريد المستلم تابعاً لـ @brid.com أيضاً!"); 
+                }
             },
 
             showSettings: function() {
@@ -226,9 +247,12 @@
             },
             hideSettings: function() { document.getElementById('settings-modal').classList.add('hidden'); },
             updateName: function() {
-                this.user.name = document.getElementById('new-name-field').value;
-                this.updateUI();
-                alert("تم تحديث الاسم!");
+                const newName = document.getElementById('new-name-field').value;
+                if(newName) {
+                    this.user.name = newName;
+                    this.updateUI();
+                    alert("تم تحديث الاسم!");
+                }
             },
 
             logout: function() {
